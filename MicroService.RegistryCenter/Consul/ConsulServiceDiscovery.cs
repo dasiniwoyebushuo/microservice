@@ -10,10 +10,11 @@ namespace MicroService.RegistryCenter.Consul
     /// <summary>
     /// consul服务发现实现
     /// </summary>
-    public class ServiceDiscovery : IServiceDiscovery
+    public class ConsulServiceDiscovery : IServiceDiscovery
     {
         private readonly IConfiguration _configuration;
-        public ServiceDiscovery(IConfiguration configuration)
+
+        public ConsulServiceDiscovery(IConfiguration configuration)
         {
             _configuration = configuration;
         }

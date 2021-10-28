@@ -7,7 +7,7 @@ namespace MicroService.RegistryCenter.Consul
     /// <summary>
     /// consul服务注册实现
     /// </summary>
-    public class ServiceRegistry : IServiceRegistry
+    public class ConsulServiceRegistry : IServiceRegistry
     {
         /// <summary>
         /// 注册服务
