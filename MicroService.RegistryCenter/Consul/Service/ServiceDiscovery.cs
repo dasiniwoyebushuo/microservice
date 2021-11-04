@@ -1,25 +1,31 @@
-﻿using Consul;
-using MicroService.RegistryCenter.ModuleOptions.Config;
-using Microsoft.Extensions.Configuration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Consul;
+using MicroService.RegistryCenter.IService;
+using MicroService.RegistryCenter.ModuleOptions.Config;
+using Microsoft.Extensions.Configuration;
 
-namespace MicroService.RegistryCenter.Consul
+namespace MicroService.RegistryCenter.Consul.Service
 {
     /// <summary>
     /// consul服务发现实现
     /// </summary>
-    public class ConsulServiceDiscovery : IServiceDiscovery
+    public class ServiceDiscovery : IServiceDiscovery
     {
         private readonly IConfiguration _configuration;
 
-        public ConsulServiceDiscovery(IConfiguration configuration)
+        public ServiceDiscovery(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        public async Task<IList<ServiceUrl>> Discovery(string serviceName)
+        /// <summary>
+        /// 获取指定服务名称的URL地址
+        /// </summary>
+        /// <param name="serviceName">服务名称</param>
+        /// <returns>服务对应的URL地址列表</returns>
+        public async Task<IList<string>> Discovery(string serviceName)
         {
             ServiceDiscoveryConfig serviceDiscoveryConfig = _configuration.GetSection("ConsulDiscovery").Get<ServiceDiscoveryConfig>();
 
@@ -34,10 +40,10 @@ namespace MicroService.RegistryCenter.Consul
             var queryResult = await consulClient.Catalog.Service(serviceName);
 
             // 3、将服务进行拼接
-            var list = new List<ServiceUrl>();
+            var list = new List<string>();
             foreach (var service in queryResult.Response)
             {
-                list.Add(new ServiceUrl { Url = service.ServiceAddress + ":" + service.ServicePort });
+                list.Add(service.ServiceAddress + ":" + service.ServicePort);
             }
             return list;
         }

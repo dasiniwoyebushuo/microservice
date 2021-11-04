@@ -1,6 +1,6 @@
 ﻿using MicroService.RegistryCenter.ModuleOptions.Config;
 
-namespace MicroService.RegistryCenter
+namespace MicroService.RegistryCenter.IService
 {
     /// <summary>
     /// 服务注册

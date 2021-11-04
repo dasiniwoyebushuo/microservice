@@ -1,6 +1,6 @@
 ﻿using Volo.Abp.Modularity;
 
-namespace MicroService.Consul.ConfigurationCenter
+namespace MicroService.ConfigurationCenter
 {
     public class ConfigurationCenterModule : AbpModule
     {

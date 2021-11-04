@@ -1,13 +1,14 @@
 ﻿using System;
 using Consul;
+using MicroService.RegistryCenter.IService;
 using MicroService.RegistryCenter.ModuleOptions.Config;
 
-namespace MicroService.RegistryCenter.Consul
+namespace MicroService.RegistryCenter.Consul.Service
 {
     /// <summary>
     /// consul服务注册实现
     /// </summary>
-    public class ConsulServiceRegistry : IServiceRegistry
+    public class ServiceRegistry : IServiceRegistry
     {
         /// <summary>
         /// 注册服务

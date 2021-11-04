@@ -8,6 +8,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
+using MicroService.RegistryCenter.Cluster;
+using MicroService.RegistryCenter.Consul.Service;
+using MicroService.RegistryCenter.IService;
 using Volo.Abp;
 using Volo.Abp.Modularity;
 
@@ -24,12 +27,39 @@ namespace MicroService.RegistryCenter
         {
             IServiceCollection services = context.Services;
 
+            //获取注册中心配置
             PreRegistryCenterOptions preRegistryCenterOptions = services.ExecutePreConfiguredActions<PreRegistryCenterOptions>();
             services.Configure<ServiceRegistryConfig>(context.Services.GetConfiguration().GetSection(preRegistryCenterOptions.ServiceRegistryConfigKey));
+
             //consul服务注册
-            services.AddSingleton<IServiceRegistry, ConsulServiceRegistry>();
+            services.AddSingleton<IServiceRegistry, ServiceRegistry>();
+
             //consul服务发现
-            services.AddSingleton<IServiceDiscovery, ConsulServiceDiscovery>();
+            services.AddSingleton<IServiceDiscovery, ServiceDiscovery>();
+            //负载均衡
+            if (preRegistryCenterOptions.CustomizeLoadBalanceType != null)
+            {
+                //自定义负载均衡算法
+                services.AddSingleton(typeof(ILoadBalance), preRegistryCenterOptions.CustomizeLoadBalanceType);
+            }
+            else
+            {
+                //默认随机负载均很算法
+                services.AddSingleton<ILoadBalance, RandomLoadBalance>();
+            }
+            //负载均衡请求工具
+            if (preRegistryCenterOptions.CustomizeLoadBalanceType != null)
+            {
+                //自定义负载均衡算法
+                services.AddSingleton(typeof(ILoadBalance), preRegistryCenterOptions.CustomizeLoadBalanceType);
+            }
+            else
+            {
+                //默认随机负载均很算法
+                services.AddSingleton<ILoadBalance, RandomLoadBalance>();
+            }
+
+
         }
         public override void OnApplicationInitialization(ApplicationInitializationContext context)
         {
