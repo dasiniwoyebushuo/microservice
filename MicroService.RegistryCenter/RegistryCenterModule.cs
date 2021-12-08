@@ -1,4 +1,6 @@
-﻿using MicroService.RegistryCenter.Consul;
+﻿using MicroService.RegistryCenter.Cluster;
+using MicroService.RegistryCenter.Consul.Service;
+using MicroService.RegistryCenter.IService;
 using MicroService.RegistryCenter.ModuleOptions;
 using MicroService.RegistryCenter.ModuleOptions.Config;
 using Microsoft.AspNetCore.Hosting.Server.Features;
@@ -8,9 +10,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
-using MicroService.RegistryCenter.Cluster;
-using MicroService.RegistryCenter.Consul.Service;
-using MicroService.RegistryCenter.IService;
 using Volo.Abp;
 using Volo.Abp.Modularity;
 
